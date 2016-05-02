@@ -14,7 +14,7 @@
  * Note that usleep is obsolete, but it offers more granularity than
  * sleep and is simpler to use than nanosleep; `man usleep` for more.
  */
- 
+
 #define _XOPEN_SOURCE 500
 
 #include <cs50.h>
@@ -48,6 +48,7 @@ int main(int argc, string argv[])
         printf("Usage: fifteen d\n");
         return 1;
     }
+    
     // ensure valid dimensions
     d = atoi(argv[1]);
     if (d < DIM_MIN || d > DIM_MAX)
@@ -56,16 +57,20 @@ int main(int argc, string argv[])
             DIM_MIN, DIM_MIN, DIM_MAX, DIM_MAX);
         return 2;
     }
+    
     // open log
     FILE* file = fopen("log.txt", "w");
     if (file == NULL)
     {
         return 3;
     }
+    
     // greet user with instructions
     greet();
+    
     // initialize the board
     init();
+    
     // accept moves until game is won
     while (true)
     {
@@ -73,7 +78,7 @@ int main(int argc, string argv[])
         clear();
         // draw the current state of the board
         draw();
-
+        
         // log the current state of the board (for testing)
         for (int i = 0; i < d; i++)
         {
@@ -88,14 +93,14 @@ int main(int argc, string argv[])
             fprintf(file, "\n");
         }
         fflush(file);
-
+        
         // check for win
         if (won())
         {
             printf("ftw!\n");
             break;
         }
-
+        
         // prompt for move
         printf("Tile to move: ");
         int tile = GetInt();
@@ -105,25 +110,25 @@ int main(int argc, string argv[])
         {
             break;
         }
-
+        
         // log move (for testing)
         fprintf(file, "%i\n", tile);
         fflush(file);
-
+        
         // move if possible, else report illegality
         if (!move(tile))
         {
             printf("\nIllegal move.\n");
             usleep(500000);
         }
-
+        
         // sleep thread for animation's sake
         usleep(50000);
     }
     
     // close log
     fclose(file);
-
+    
     // success
     return 0;
 }
