@@ -48,7 +48,6 @@ int main(int argc, string argv[])
         printf("Usage: fifteen d\n");
         return 1;
     }
-
     // ensure valid dimensions
     d = atoi(argv[1]);
     if (d < DIM_MIN || d > DIM_MAX)
@@ -57,26 +56,21 @@ int main(int argc, string argv[])
             DIM_MIN, DIM_MIN, DIM_MAX, DIM_MAX);
         return 2;
     }
-
     // open log
     FILE* file = fopen("log.txt", "w");
     if (file == NULL)
     {
         return 3;
     }
-
     // greet user with instructions
     greet();
-    
     // initialize the board
     init();
-
     // accept moves until game is won
     while (true)
     {
         // clear the screen
         clear();
-
         // draw the current state of the board
         draw();
 
